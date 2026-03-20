@@ -1,3 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>camera</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #000;
+    }
+    button {
+      font-size: 22px;
+      padding: 20px 30px;
+      border-radius: 10px;
+      border: none;
+      background: #06C755;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+
+<button id="btn">タップして撮影</button>
+<input type="file" id="file" accept="image/*" capture="environment" style="display:none">
+
 <script>
-location.href = "gallery.html";
+const LIFF_ID = "ここにLIFF_ID入れる";
+
+async function main() {
+  await liff.init({ liffId: LIFF_ID });
+
+  // ★ここがキモ（擬似自動起動）
+  setTimeout(() => {
+    document.getElementById("file").click();
+  }, 300);
+}
+
+main();
+
+// 万一自動がブロックされた時用
+document.getElementById("btn").addEventListener("click", () => {
+  document.getElementById("file").click();
+});
+
+// 選択後の処理（とりあえず確認）
+document.getElementById("file").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    alert("画像取得OK");
+  }
+});
 </script>
+
+</body>
+</html>
